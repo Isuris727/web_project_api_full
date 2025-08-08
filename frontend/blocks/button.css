@@ -1,0 +1,149 @@
+.button {
+  background-color: transparent;
+  font-size: 1rem;
+  border: 1px solid rgba(255, 255, 255, 1);
+  width: 100%;
+  box-sizing: content-box;
+  padding: 0;
+}
+
+.button:hover {
+  cursor: pointer;
+  transform: scale(1, 1.1);
+}
+.button_type_edit {
+  width: 24px;
+  height: 24px;
+}
+
+.button_type_edit:hover {
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.button_type_add {
+  width: 150px;
+  height: 50px;
+  border: 2px solid rgba(255, 255, 255, 1);
+  box-sizing: border-box;
+}
+
+.button_type_add:hover {
+  border: 2px solid rgba(255, 255, 255, 0.6);
+}
+
+.button_type_close {
+  position: relative;
+  width: 41.7px;
+  height: 41.7px;
+  align-self: flex-end;
+  border: none;
+}
+
+.button_type_navbar {
+  color: #fff;
+  border: none;
+  width: fit-content;
+  text-decoration: none;
+}
+
+.button_type_submit {
+  background-color: rgba(0, 0, 0, 1);
+  color: #fff;
+  width: 100%;
+  max-width: 358px;
+  min-height: 40.15px;
+  height: 100%;
+  max-height: 50.15px;
+}
+
+.button_type_auth {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  margin: 37% auto 0;
+}
+
+.button_type_submit:hover {
+  opacity: 80%;
+}
+
+.button_inactive {
+  opacity: 20%;
+  cursor: default;
+}
+
+.button_inactive:hover {
+  opacity: 20%;
+  cursor: default;
+  transform: none;
+}
+
+.button_type_delete {
+  border: none;
+  width: 18px;
+  height: 19.3px;
+  position: absolute;
+  right: 15px;
+  top: 18px;
+}
+
+.button_type_like {
+  width: 21px;
+  height: 19px;
+  grid-column: 2/3;
+  justify-self: end;
+  margin-right: 18px;
+  /* background-color: aquamarine; */
+}
+
+.button_type_like_inactive {
+  background: url(./../images/nolike.png) center no-repeat;
+}
+
+.button_type_like_active {
+  background: url(./../images/like.png) center no-repeat;
+}
+
+/* .button_img{} */
+
+.button__img:hover {
+  opacity: 0.6;
+}
+
+.button__img_type_edit {
+  width: 41.667%;
+  min-width: 7.5px;
+  max-width: 10px;
+  color: #fff;
+}
+
+.button__img_type_overlay-edit {
+  opacity: 0;
+  position: absolute;
+  z-index: 3;
+  padding: 50px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.548);
+}
+
+.button__img_type_overlay:hover {
+  opacity: 1;
+}
+
+.button__img_type_add {
+  min-width: 18px;
+  max-width: 22px;
+  color: #fff;
+}
+.button__img_type_close {
+  width: 100%;
+}
+
+@media screen and (max-width: 540px) {
+  .button_type_edit {
+    width: 18px;
+    height: 18px;
+  }
+  .button_type_add {
+    width: 282px;
+  }
+}

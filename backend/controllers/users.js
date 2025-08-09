@@ -1,4 +1,46 @@
-import User from "../models/User.js";
+import User from "../models/user.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { ValidationError } from "./errors.js";
+
+async function login(req, res) {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res
+      .status(400)
+      .json({ message: "Email and password are required." });
+  }
+
+  try {
+    const userToValidate = await User.findOne({ email });
+
+    if (!userToValidate) {
+      throw new ValidationError("Incorrect password or email");
+    }
+
+    const passwordIsMatch = await bcrypt.compare(
+      password,
+      userToValidate.password
+    );
+
+    if (!passwordIsMatch) {
+      throw new ValidationError("Incorrect password or email");
+    }
+
+    const token = jwt.sign({ _id: userToValidate._id }, "secret-key", {
+      expiresIn: "7d",
+    });
+
+    res.status(202).json({ token });
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      return res.status(401).json({ message: error.message });
+    }
+    console.error("Error inesperado en la función de login:", error);
+    res.status(500).json({ message: "Ocurrió un error en el servidor." });
+  }
+}
 
 async function getUsers(req, res) {
   const users = await User.find({});
@@ -18,14 +60,23 @@ async function getUserById(req, res) {
 }
 
 async function createUser(req, res) {
-  const { name, about, avatar } = req.body;
+  const { name, about, avatar, email, password } = req.body;
+
+  const rounds = 11;
+
+  const hashedPasswrd = await bcrypt.hash(password, rounds);
+
+  console.log("password ->", password, "hash -->", hashedPasswrd);
+
   const user = await User.create({
     name,
     about,
     avatar,
+    email,
+    password: hashedPasswrd,
   });
 
-  res.send(user);
+  res.send(user._id);
 }
 
 async function updateUserProfile(req, res, next) {
@@ -65,6 +116,7 @@ async function updateUserAvatar(req, res, next) {
 }
 
 export {
+  login,
   getUsers,
   getUserById,
   createUser,

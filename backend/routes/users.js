@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  login,
   getUsers,
   getUserById,
   createUser,
@@ -10,6 +11,8 @@ import {
 const { Router } = express;
 
 const routes = Router();
+
+routes.post("/login", login);
 
 routes.get("/", getUsers);
 

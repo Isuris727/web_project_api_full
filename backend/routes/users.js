@@ -1,9 +1,7 @@
 import express from "express";
 import {
-  login,
   getUsers,
   getUserById,
-  createUser,
   updateUserProfile,
   updateUserAvatar,
 } from "../controllers/users.js";
@@ -12,13 +10,9 @@ const { Router } = express;
 
 const routes = Router();
 
-routes.post("/login", login);
-
 routes.get("/", getUsers);
 
 routes.get("/:id", getUserById);
-
-routes.post("/", createUser);
 
 routes.patch("/me", updateUserProfile);
 

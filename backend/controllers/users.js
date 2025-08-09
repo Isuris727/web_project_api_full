@@ -9,14 +9,14 @@ async function login(req, res) {
   if (!email || !password) {
     return res
       .status(400)
-      .json({ message: "Email and password are required." });
+      .json({ message: "Email y contraseña son requeridos." });
   }
 
   try {
     const userToValidate = await User.findOne({ email });
 
     if (!userToValidate) {
-      throw new ValidationError("Incorrect password or email");
+      throw new ValidationError("Email o contraseña incorrectos.");
     }
 
     const passwordIsMatch = await bcrypt.compare(
@@ -25,7 +25,7 @@ async function login(req, res) {
     );
 
     if (!passwordIsMatch) {
-      throw new ValidationError("Incorrect password or email");
+      throw new ValidationError("Email o contraseña incorrectos.");
     }
 
     const token = jwt.sign({ _id: userToValidate._id }, "secret-key", {
@@ -40,6 +40,21 @@ async function login(req, res) {
     console.error("Error inesperado en la función de login:", error);
     res.status(500).json({ message: "Ocurrió un error en el servidor." });
   }
+}
+
+async function createUser(req, res) {
+  const { name, about, avatar, email, password } = req.body;
+  const rounds = 11;
+  const hashedPasswrd = await bcrypt.hash(password, rounds);
+  const user = await User.create({
+    name,
+    about,
+    avatar,
+    email,
+    password: hashedPasswrd,
+  });
+  // res.send(user._id);
+  res.status(201).json({ message: "¡Correcto! ya estás registrado." });
 }
 
 async function getUsers(req, res) {
@@ -57,26 +72,6 @@ async function getUserById(req, res) {
     return res.send(foundUser);
   }
   return res.status(404).send({ message: "ID de usuario no encontrado" });
-}
-
-async function createUser(req, res) {
-  const { name, about, avatar, email, password } = req.body;
-
-  const rounds = 11;
-
-  const hashedPasswrd = await bcrypt.hash(password, rounds);
-
-  console.log("password ->", password, "hash -->", hashedPasswrd);
-
-  const user = await User.create({
-    name,
-    about,
-    avatar,
-    email,
-    password: hashedPasswrd,
-  });
-
-  res.send(user._id);
 }
 
 async function updateUserProfile(req, res, next) {
@@ -117,9 +112,9 @@ async function updateUserAvatar(req, res, next) {
 
 export {
   login,
+  createUser,
   getUsers,
   getUserById,
-  createUser,
   updateUserProfile,
   updateUserAvatar,
 };

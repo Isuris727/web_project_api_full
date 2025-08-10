@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
-import { ValidationError } from "../errors/errors.js";
+import { ValidationError, NotFoundError } from "../errors/index.js";
 
 async function login(req, res) {
   const { email, password } = req.body;
@@ -64,15 +64,45 @@ async function getUsers(req, res) {
   res.send(users);
 }
 
-async function getUserById(req, res) {
-  const { id } = req.params;
+async function getCurrentUser(req, res) {
+  try {
+    const { _id } = req.user;
 
-  const foundUser = await User.findById(id);
+    const currentUser = await User.findById(_id);
 
-  if (foundUser !== null) {
-    return res.send(foundUser);
+    if (currentUser === null) {
+      throw new NotFoundError("Error al encontrar al usuario");
+    }
+
+    return res.send(currentUser);
+  } catch {
+    if (error instanceof NotFoundError) {
+      return res.status(404).json({ message: error.message });
+    }
+    console.error("Error inesperado en la función getCurrentUser:", error);
+    res.status(500).json({ message: "Ocurrió un error en el servidor." });
   }
-  return res.status(404).send({ message: "ID de usuario no encontrado" });
+}
+
+async function getUserById(req, res) {
+  try {
+    console.log("getUserById function");
+    const { id } = req.params;
+
+    const foundUser = await User.findById(id);
+
+    if (foundUser === null) {
+      throw new NotFoundError("Usuario no encontrado");
+    }
+
+    return res.send(foundUser);
+  } catch {
+    if (error instanceof NotFoundError) {
+      return res.status(404).json({ message: error.message });
+    }
+    console.error("Error inesperado en la función getUserById:", error);
+    res.status(500).json({ message: "Ocurrió un error en el servidor." });
+  }
 }
 
 async function updateUserProfile(req, res, next) {
@@ -115,6 +145,7 @@ export {
   login,
   createUser,
   getUsers,
+  getCurrentUser,
   getUserById,
   updateUserProfile,
   updateUserAvatar,

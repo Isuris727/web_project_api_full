@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { AuthError } from "../errors/errors.js";
+import { AuthError } from "../errors/index.js";
 
 function validateToken(req, res, next) {
   const { authorization } = req.headers;
@@ -26,7 +26,7 @@ function validateToken(req, res, next) {
 
   req.user = payload;
 
-  console.log("req.user ->", req.user, "payload ->", payload); // quitar
+  console.log("ValidateToken middleware"); // quitar
   next();
 }
 

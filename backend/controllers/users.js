@@ -58,51 +58,42 @@ async function createUser(req, res) {
   res.status(201).json({ message: "¡Correcto! ya estás registrado." });
 }
 
-async function getUsers(req, res) {
+async function getAllUsers(req, res) {
   const users = await User.find({});
 
   res.send(users);
 }
 
-async function getCurrentUser(req, res) {
+async function getUser(id, errorMsg) {
   try {
-    const { _id } = req.user;
-
-    const currentUser = await User.findById(_id);
-
-    if (currentUser === null) {
-      throw new NotFoundError("Error al encontrar al usuario");
+    const user = await User.findById(id);
+    if (user === null) {
+      throw new NotFoundError(errorMsg);
     }
-
-    return res.send(currentUser);
+    return user;
   } catch {
     if (error instanceof NotFoundError) {
       return res.status(404).json({ message: error.message });
     }
-    console.error("Error inesperado en la función getCurrentUser:", error);
+    console.error("Error inesperado en la función getUser:", error);
     res.status(500).json({ message: "Ocurrió un error en el servidor." });
   }
 }
 
+async function getCurrentUser(req, res) {
+  const { _id } = req.user;
+
+  const currentUser = await getUser(_id, "Error al encontrar al usuario");
+
+  res.send(currentUser);
+}
+
 async function getUserById(req, res) {
-  try {
-    console.log("getUserById function");
-    const { id } = req.params;
+  const { id } = req.params;
 
-    const foundUser = await User.findById(id);
+  const foundUser = await getUser(id, "Usuario no encontrado");
 
-    if (foundUser === null) {
-      throw new NotFoundError("Usuario no encontrado");
-    }
-
-    return res.send(foundUser);
-  } catch {
-    if (error instanceof NotFoundError) {
-      return res.status(404).json({ message: error.message });
-    }
-    console.error("Error inesperado en la función getUserById:", error);
-    res.status(500).json({ message: "Ocurrió un error en el servidor." });
-  }
+  res.send(foundUser);
 }
 
 async function updateUserProfile(req, res, next) {
@@ -144,7 +135,7 @@ async function updateUserAvatar(req, res, next) {
 export {
   login,
   createUser,
-  getUsers,
+  getAllUsers,
   getCurrentUser,
   getUserById,
   updateUserProfile,

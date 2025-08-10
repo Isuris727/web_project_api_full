@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  getUsers,
+  getAllUsers,
   getCurrentUser,
   getUserById,
   updateUserProfile,
@@ -11,7 +11,7 @@ const { Router } = express;
 
 const routes = Router();
 
-routes.get("/", getUsers);
+routes.get("/", getAllUsers);
 
 routes.get("/me", getCurrentUser);
 

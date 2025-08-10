@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import usersRoutes from "./routes/users.js";
 import cardsRoutes from "./routes/cards.js";
+import { validateToken } from "./middlewares/auth.js";
 import { login, createUser } from "./controllers/users.js";
 
 const app = express();
@@ -25,12 +26,7 @@ app.post("/signup", createUser);
 
 app.post("/signin", login);
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: "685629b5e669a26424f53b16", // esto se va a modificar
-  };
-  next();
-});
+app.use(validateToken);
 
 app.use("/users", usersRoutes);
 

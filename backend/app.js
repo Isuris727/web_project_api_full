@@ -27,12 +27,6 @@ app.post("/signup", createUser);
 app.post("/signin", login);
 
 app.use(validateToken);
-// app.use((req, res, next) => {
-//   req.user = {
-//     _id: "685629b5e669a26424f53b16", // esto se va a modificar
-//   };
-//   next();
-// });
 
 app.use("/users", usersRoutes);
 

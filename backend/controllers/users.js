@@ -13,7 +13,7 @@ async function login(req, res) {
   }
 
   try {
-    const userToValidate = await User.findOne({ email });
+    const userToValidate = await User.findOne({ email }).select("+password");
 
     if (!userToValidate) {
       throw new ValidationError("Email o contraseña incorrectos.");
@@ -95,6 +95,8 @@ async function getUserById(req, res) {
 
   res.send(foundUser);
 }
+
+// function verifyOwner() {}
 
 async function updateUserProfile(req, res, next) {
   const { name, about } = req.body;

@@ -41,15 +41,23 @@ app.use("/", function (req, res) {
   res.status(500).send({ message: "Recurso solicitado no encontrado" });
 });
 
-app.use((err, req, res, next) => {
-  if (err.name === "CastError") {
+app.use((error, req, res, next) => {
+  if (error instanceof AuthError) {
+    return res.status(401).send({ message: error.message });
+  }
+
+  if (error instanceof ValidationError) {
+    return res.status(401).json({ message: error.message });
+  }
+
+  if (error.name === "CastError") {
     console.error(err);
     return res
       .status(400)
       .send({ message: "Por favor introduce unos datos validos." });
   }
 
-  if (err.name === "DocumentNotFoundError") {
+  if (error.name === "DocumentNotFoundError") {
     console.error(err);
     return res.status(404).send({
       message:

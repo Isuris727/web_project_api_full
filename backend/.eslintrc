@@ -9,6 +9,7 @@
       "double",
       { "avoidEscape": true, "allowTemplateLiterals": true }
     ],
-    "import/extensions": "warn"
+    "import/extensions": "warn",
+    "no-unused-vars": ["error", { "argsIgnorePattern": "next" }]
   }
 }

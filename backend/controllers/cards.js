@@ -1,11 +1,12 @@
 import Card from "../models/Card.js";
+import { AuthError, NotFoundError } from "../errors/index.js";
 
 async function getCards(req, res, next) {
   try {
     const cards = await Card.find({});
     res.send(cards);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 }
 
@@ -13,28 +14,46 @@ async function createCard(req, res, next) {
   try {
     const { name, link } = req.body;
 
+    if (!name || !link) {
+      throw new Error("Por favor introduce unos datos validos.");
+    }
+
     const newCard = await Card.create({
       name,
       link,
       owner: req.user._id,
     });
     res.send(newCard);
-  } catch (err) {
-    console.log(err);
-    next(err);
+  } catch (error) {
+    console.log("catch createCard");
+    next(error);
   }
 }
 
 async function deleteCard(req, res, next) {
-  const { cardId } = req.params;
+  try {
+    const { cardId } = req.params;
+    const { _id } = req.user;
+    const cardToDelete = await Card.findById(cardId);
 
-  Card.findByIdAndDelete(cardId)
-    .then((cardId) =>
+    console.log("cardToDelete", cardToDelete);
+    if (!cardToDelete) {
+      throw new NotFoundError("Error al tratar de eliminar la carta");
+    }
+
+    if (!cardToDelete.owner.equals(_id)) {
+      throw new AuthError("Usuario no autorizado");
+    }
+
+    Card.findByIdAndDelete(cardId).then((cardId) =>
       res.send({
         message: `Carta ${cardId.name} con ID: ${cardId._id} eliminada correctamente`,
       })
-    )
-    .catch((err) => next());
+    );
+  } catch (error) {
+    console.log("catch deleteCard", error); // borrar
+    (error) => next(error);
+  }
 }
 
 async function likeCard(req, res, next) {
@@ -47,7 +66,7 @@ async function likeCard(req, res, next) {
       { new: true }
     );
     res.send(likedCard);
-  } catch (err) {
+  } catch (error) {
     next();
   }
 }

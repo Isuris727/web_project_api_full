@@ -96,10 +96,9 @@ async function getUserById(req, res) {
   res.send(foundUser);
 }
 
-// function verifyOwner() {}
-
 async function updateUserProfile(req, res, next) {
   const { name, about } = req.body;
+
   try {
     const updatedUser = await User.findByIdAndUpdate(
       req.user._id,
@@ -107,6 +106,7 @@ async function updateUserProfile(req, res, next) {
         name,
         about,
       },
+
       { new: true, runValidators: true }
     );
 

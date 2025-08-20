@@ -3,6 +3,7 @@ import { AuthError } from "../errors/index.js";
 
 function validateToken(req, res, next) {
   const { authorization } = req.headers;
+  console.log("req.headers", req.headers); // borrar
 
   if (!authorization || !authorization.startsWith("Bearer ")) {
     console.log("no hay autorización");

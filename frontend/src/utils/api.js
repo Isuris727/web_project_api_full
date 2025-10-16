@@ -14,8 +14,8 @@ class Api {
       headers: {
         //agregar a tus solicitudes un encabezado Authorization: Bearer {token}, utilizando el token recibido por la solicitud de autenticación del usuario
 
-        authorization: "94c8a629-44c5-4556-b294-d569e5d5ac14",
-        // Autorization: `Bearer ${this.jwt}`,
+        // authorization: "94c8a629-44c5-4556-b294-d569e5d5ac14",
+        Autorization: `Bearer ${this.jwt}`,
         "content-type": "application/json",
       },
       body: JSON.stringify(body),

@@ -79,7 +79,7 @@ async function dislikeCard(req, res, next) {
       cardId,
       { $pull: { likes: req.user._id } },
       { new: true }
-    );
+    ).orFail();
     res.send(dislikedCard);
   } catch (err) {
     next();

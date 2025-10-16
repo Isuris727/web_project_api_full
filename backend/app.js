@@ -16,7 +16,7 @@ if (process.env.NODE_ENV !== "test") {
 }
 
 mongoose
-  .connect("mongodb://localhost:27017/aroundbd")
+  .connect("mongodb://127.0.0.1:27017/aroundbd")
   .then(() => console.log("conectado a la base de datos"))
   .catch((err) => console.error(err));
 

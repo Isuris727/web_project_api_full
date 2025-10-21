@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import usersRoutes from "./routes/users.js";
 import cardsRoutes from "./routes/cards.js";
 import { validateToken } from "./middlewares/auth.js";
+import { requestLogger, errorLogger } from "./middlewares/logger.js";
 import { login, createUser } from "./controllers/users.js";
 
 const app = express();
@@ -22,6 +23,8 @@ mongoose
 
 app.use(express.json());
 
+app.use(requestLogger);
+
 app.post("/signup", createUser);
 
 app.post("/signin", login);
@@ -31,6 +34,10 @@ app.use(validateToken);
 app.use("/users", usersRoutes);
 
 app.use("/cards", cardsRoutes);
+
+app.use(errorLogger);
+
+// app.use(errors()); // revisar
 
 app.use((err, req, res, next) => {
   res.status(400).send(err.message);

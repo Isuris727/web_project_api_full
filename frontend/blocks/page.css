@@ -1,0 +1,31 @@
+.page {
+  margin: 0 auto;
+  padding: 45px 15.625% 60px;
+  min-height: 100%;
+  font-family: "Inter", sans-serif;
+  background-color: rgba(0, 0, 0, 1);
+  color: rgba(255, 255, 255, 1);
+}
+
+.page__header {
+  margin: auto;
+}
+.page__main {
+  margin: auto;
+}
+.page__footer {
+  margin: auto;
+}
+
+@media screen and (max-width: 880px) {
+  .page {
+    padding-left: 7.5%;
+    padding-right: 7.5%;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .page {
+    padding: 28px 19px 36px;
+  }
+}

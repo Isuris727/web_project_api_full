@@ -1,0 +1,22 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  min-height: 56px;
+  max-height: 74px;
+  max-width: 880px;
+  border-bottom: 1px solid rgba(84, 84, 84, 1);
+}
+.header__logo {
+  width: 19.5%;
+  min-width: 126px;
+  max-width: 173px;
+  min-height: 24px;
+  max-height: 33px;
+  margin-bottom: 41px;
+}
+
+@media screen and (max-width: 540px) {
+  .header__logo {
+    margin-left: 27px;
+  }
+}

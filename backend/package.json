@@ -1,0 +1,56 @@
+{
+  "name": "web_project_around_express",
+  "version": "1.0.0",
+  "description": "project sprint 15",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "jest",
+    "lint": "npx eslint .",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Isuris727/web_project_around_express.git"
+  },
+  "keywords": [
+    "express"
+  ],
+  "author": "Isuris",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Isuris727/web_project_around_express/issues"
+  },
+  "homepage": "https://github.com/Isuris727/web_project_around_express#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "celebrate": "^15.0.3",
+    "express": "^5.1.0",
+    "express-winston": "^4.2.0",
+    "joi": "^18.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.16.0",
+    "validator": "^13.15.15",
+    "winston": "^3.18.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "babel-jest": "^30.0.5",
+    "eslint": "^8.56.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.31.0",
+    "jest": "^30.0.5",
+    "nodemon": "^3.1.10",
+    "supertest": "^7.1.4"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    }
+  }
+}

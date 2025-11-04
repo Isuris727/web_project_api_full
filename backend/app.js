@@ -37,8 +37,6 @@ app.use("/cards", cardsRoutes);
 
 app.use(errorLogger);
 
-// app.use(errors()); // revisar
-
 app.use((err, req, res, next) => {
   res.status(400).send(err.message);
   console.error(err);

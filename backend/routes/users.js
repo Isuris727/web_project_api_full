@@ -44,7 +44,6 @@ routes.patch(
     body: Joi.object().keys({
       name: Joi.string().required().min(2).max(30),
       about: Joi.string().required().min(2).max(30),
-      // validación de datos
     }),
   }),
   updateUserProfile
@@ -60,7 +59,7 @@ routes.patch(
       })
       .unknown(true),
     body: Joi.object().keys({
-      avatar: Joi.string().required().custom(validateUrl), // validación de url
+      avatar: Joi.string().required().custom(validateUrl),
     }),
   }),
   updateUserAvatar

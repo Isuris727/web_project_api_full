@@ -1,4 +1,4 @@
-import Card from "../models/Card.js";
+import Card from "../models/card.js";
 import { AuthError, NotFoundError } from "../errors/index.js";
 
 async function getCards(req, res, next) {

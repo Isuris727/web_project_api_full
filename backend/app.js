@@ -10,6 +10,12 @@ const app = express();
 
 const { PORT = 3000 } = process.env;
 
+const allowedCors = [
+  "https://isuris727.net",
+  "http://isuris727.net",
+  "localhost:3000",
+];
+
 if (process.env.NODE_ENV !== "test") {
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`App escuchando en el puerto ${PORT}`);
@@ -20,6 +26,25 @@ mongoose
   .connect("mongodb://127.0.0.1:27017/aroundbd")
   .then(() => console.log("conectado a la base de datos"))
   .catch((err) => console.error(err));
+
+app.use(function (req, res, next) {
+  const { origin } = req.headers;
+  const { method } = req;
+  const DEFAULT_ALLOWED_METHODS = "GET,HEAD,PUT,PATCH,POST,DELETE";
+  const requestHeaders = req.headers["access-control-request-headers"];
+
+  if (allowedCors.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
+
+  if (method === "OPTIONS") {
+    res.header("Access-Control-Allow-Methods", DEFAULT_ALLOWED_METHODS);
+    res.header("Access-Control-Allow-Headers", requestHeaders);
+    return res.end();
+  }
+
+  next();
+});
 
 app.use(express.json());
 

@@ -40,13 +40,11 @@ function Register({ popup, onOpenPopup, onClosePopup }) {
   async function handleSignUp({ email, password }) {
     try {
       const newUser = await auth.register({ email, password });
-      console.log("newUser", newUser);
       onOpenPopup(InfoToolTipPopup(false));
 
       navigate("/signin");
     } catch (error) {
       onOpenPopup(InfoToolTipPopup(true));
-      console.log("Se ejecutó catch de handleSignUp", error);
     }
   }
 

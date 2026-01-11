@@ -54,7 +54,7 @@ async function createUser(req, res) {
     email,
     password: hashedPasswrd,
   });
-  // res.send(user._id);
+
   res.status(201).json({ message: "¡Correcto! ya estás registrado." });
 }
 
@@ -75,7 +75,7 @@ async function getUser(id, errorMsg) {
     if (error instanceof NotFoundError) {
       return res.status(404).json({ message: error.message });
     }
-    console.error("Error inesperado en la función getUser:", error);
+    console.error("Error inesperado al obtener usuario:", error);
     res.status(500).json({ message: "Ocurrió un error en el servidor." });
   }
 }

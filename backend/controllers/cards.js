@@ -25,7 +25,7 @@ async function createCard(req, res, next) {
     });
     res.send(newCard);
   } catch (error) {
-    console.log("catch createCard");
+    console.log("Error al crear carta: ", error);
     next(error);
   }
 }
@@ -35,8 +35,6 @@ async function deleteCard(req, res, next) {
     const { cardId } = req.params;
     const { _id } = req.user;
     const cardToDelete = await Card.findById(cardId);
-
-    console.log("cardToDelete", cardToDelete);
     if (!cardToDelete) {
       throw new NotFoundError("Error al tratar de eliminar la carta");
     }
@@ -51,8 +49,8 @@ async function deleteCard(req, res, next) {
       })
     );
   } catch (error) {
-    console.log("catch deleteCard", error); // borrar
-    (error) => next(error);
+    console.log("Error al eliminar carta", error);
+    next(error);
   }
 }
 

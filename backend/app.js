@@ -5,6 +5,7 @@ import cardsRoutes from "./routes/cards.js";
 import { validateToken } from "./middlewares/auth.js";
 import { requestLogger, errorLogger } from "./middlewares/logger.js";
 import { login, createUser } from "./controllers/users.js";
+import { ValidationError, AuthError, NotFoundError } from "./errors/index.js";
 
 const app = express();
 
@@ -13,7 +14,7 @@ const { PORT = 3000 } = process.env;
 const allowedCors = [
   "https://isuris727.net",
   "http://isuris727.net",
-  "localhost:3000",
+  "http://localhost:3001",
 ];
 
 if (process.env.NODE_ENV !== "test") {
